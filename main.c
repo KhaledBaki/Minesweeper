@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include "raylib.h"
+
+int main()
+{
+    // Testing raylib.h import
+
+    InitWindow(800, 450, "raylib [core] example - basic window");
+
+    SetTargetFPS(60); 
+
+
+    while (!WindowShouldClose()) 
+    {
+        BeginDrawing();
+
+            ClearBackground(RAYWHITE);
+            DrawText("Congrats! Your raylib setup works!", 190, 200, 20, LIGHTGRAY);
+
+        EndDrawing();
+    }
+
+
+    CloseWindow();        
+
+    return 0;
+}
