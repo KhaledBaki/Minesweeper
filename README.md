@@ -14,7 +14,7 @@ By learning about the development process of Minesweeper, I was able to actively
 6) Added new sound effects
 7) Added new difficulty menu, and adjusted game size
 
-# Features & Modifications
+# Features & Modifications that I Contributed
 1) The original project by Erik Yuzwa features the classic Minesweeper logic game we all love and know, however the code has a few bugs! I fixed minor bugs such as index out of bounds issues and undefined behaviors.
 
 2) Added difficulty feature so that the user can adjust and select the certain difficulty. For that, I added a new main menu option "difficulty" by pressing the letter "D" on your keyboard. The difficulties are easy, medium, and hard. To select the appropriate activity the user should press the letters "E", "M", or "H" for easy, medium, or hard respectively.
