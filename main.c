@@ -41,16 +41,16 @@ float timeGameEnded;
 bool isMusicEnabled = true;
 bool isSoundEnabled = true;
 
+// In-Game Messages
 const char* labelGameWin = "YOU WIN!";
 const char* labelGameLose = "GAME OVER :(";
 const char* labelEnter = "PRESS ENTER FOR MAIN MENU";
 
-// Images and Icons
+// Images Rendering
 #define MAX_TEXTURES 1
 typedef enum{
     TEXTURE_FLAG = 0
 }texture_asset;
-
 Texture2D textures[MAX_TEXTURES];
 
 // Game States
@@ -62,9 +62,7 @@ typedef enum{
     STATE_LOSE,
     STATE_WIN
 }game_states;
-
 game_states gameState;
-
 
 // Game Sounds
 #define MAX_SOUNDS 5
@@ -75,16 +73,13 @@ typedef enum{
     SOUND_FOUR,
     SOUND_FIVE
 }sound_asset;
-
 Sound sounds[MAX_SOUNDS];
-
 
 // Game Music Tracks
 #define MAX_MUSIC 1
 typedef enum{
     MUSIC_ONE = 0
 }music_asset;
-
 Music music[MAX_MUSIC];
 
 // Function Prototypes
@@ -94,7 +89,6 @@ void GameShutdown();
 void GameRender();
 void GameReset();
 void GamePlaySound(int sound);
-
 void RenderTiles();
 void RenderTile(sTILE);
 void ResetTiles();
@@ -106,11 +100,11 @@ void RevealTilesFrom(int, int);
 float difficultyValue();
 
 
-
 // Game Functions
 void GameStartup(){
     InitAudioDevice();
 
+    // Flag image
     Image image1 = LoadImage("assets/flag.png");
     textures[TEXTURE_FLAG] = LoadTextureFromImage(image1);
     UnloadImage(image1);
@@ -120,18 +114,17 @@ void GameStartup(){
     sounds[SOUND_THREE] = LoadSound("assets/pickupCoin.wav");
     sounds[SOUND_FOUR] = LoadSound("assets/winner.mp3");
     sounds[SOUND_FIVE] = LoadSound("assets/lose.mp3");
+
     music[MUSIC_ONE] = LoadMusicStream("assets/8-bit-game-158815.mp3");
-
     PlayMusicStream(music[MUSIC_ONE]);
-
 
     gameState = STATE_MAIN_MENU;
 }
 
 void GameUpdate(){
-
     UpdateMusicStream(music[MUSIC_ONE]);
 
+    // Different Game States
     switch (gameState){
     case STATE_MAIN_MENU:
         if(IsKeyPressed(KEY_N)){
@@ -194,7 +187,6 @@ void GameUpdate(){
                 StopMusicStream(music[MUSIC_ONE]);
             }
         }
-
         break;
     
     case STATE_PLAYING:
@@ -207,7 +199,8 @@ void GameUpdate(){
                 RevealTile(col, row);
                 GamePlaySound(SOUND_ONE);
             }
-        } else if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
+        }
+        else if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
             Vector2 mousePos = GetMousePosition();
             int col = (int)(mousePos.x / TILE_WIDTH);
             int row = (int)(mousePos.y / TILE_HEIGHT);
@@ -235,14 +228,17 @@ void GameUpdate(){
 }
 
 void GameShutdown(){
+    // Unloading Textures
     for(int i = 0; i < MAX_TEXTURES; i++){
         UnloadTexture(textures[i]);
     }
 
+    // Unloading Sounds
     for(int i = 0; i < MAX_SOUNDS; i++){
         UnloadSound(sounds[i]);
     }
 
+    // Stopping / Unloading Music
     StopMusicStream(music[MUSIC_ONE]);
     UnloadMusicStream(music[MUSIC_ONE]);
 
@@ -252,8 +248,8 @@ void GameShutdown(){
 void GameRender(){
     int seconds;
     int minutes;
-    switch (gameState)
-    {
+    switch (gameState){
+
     case STATE_MAIN_MENU:
         DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, DARKBLUE);
         DrawText("MINESWEEPER", 20, 20, 75, WHITE);
@@ -266,10 +262,11 @@ void GameRender(){
         
     case STATE_DIFFICULTY_GRID_MENU:
         DrawText("MINESWEEPER :: DIFFICULTY", 20, 20, 40, WHITE);
-
         DrawText("[E]asy ", 120, 220, 20, WHITE);
         DrawText("[M]edium ", 120, 250, 20, WHITE);
         DrawText("[H]ard ", 120, 280, 20, WHITE);
+        DrawText(labelEnter, 120, 400, 20, WHITE);
+
         if (isEasy) {
             DrawText("EASY", 280, 220, 20, YELLOW);
             DrawText(" / ", 310, 220, 20, WHITE);
@@ -291,41 +288,16 @@ void GameRender(){
             DrawText(" / ", 380, 220, 20, WHITE);
             DrawText("HARD", 420, 220, 20, YELLOW);
         }
-        DrawText(labelEnter, 120, 400, 20, WHITE);
         break;
 
     case STATE_OPTIONS_MENU:
-    DrawText("MINESWEEPER :: OPTIONS", 20, 20, 40, WHITE);
-
-        DrawText("[S]ound ", 120, 220, 20, WHITE);
-        if (isSoundEnabled) {
-            DrawText("ON", 280, 220, 20, YELLOW);
-            DrawText(" / ", 310, 220, 20, WHITE);
-            DrawText("OFF", 350, 220, 20, WHITE);
-        }
-        else {
-            DrawText("ON", 280, 220, 20, WHITE);
-            DrawText(" / ", 310, 220, 20, WHITE);
-            DrawText("OFF", 350, 220, 20, YELLOW);
-        }
-
-        DrawText("[M]usic", 120, 250, 20, WHITE);
-        if (isMusicEnabled) {
-            DrawText("ON", 280, 250, 20, YELLOW);
-            DrawText(" / ", 310, 250, 20, WHITE);
-            DrawText("OFF", 350, 250, 20, WHITE);
-        }
-        else {
-            DrawText("ON", 280, 250, 20, WHITE);
-            DrawText(" / ", 310, 250, 20, WHITE);
-            DrawText("OFF", 350, 250, 20, YELLOW);
-        }
-        DrawText(labelEnter, 120, 400, 20, WHITE);
-        break;
-    DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, DARKBLUE);
+        DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, DARKBLUE);
         DrawText("MINESWEEPER :: OPTIONS", 20, 20, 40, WHITE);
-
         DrawText("[S]ound ", 120, 220, 20, WHITE);
+        DrawText("[M]usic", 120, 250, 20, WHITE);
+        DrawText(labelEnter, 120, 400, 20, WHITE);
+
+        // Sound Row
         if (isSoundEnabled) {
             DrawText("ON", 280, 220, 20, YELLOW);
             DrawText(" / ", 310, 220, 20, WHITE);
@@ -337,7 +309,7 @@ void GameRender(){
             DrawText("OFF", 350, 220, 20, YELLOW);
         }
 
-        DrawText("[M]usic", 120, 250, 20, WHITE);
+        // Music Row
         if (isMusicEnabled) {
             DrawText("ON", 280, 250, 20, YELLOW);
             DrawText(" / ", 310, 250, 20, WHITE);
@@ -348,7 +320,6 @@ void GameRender(){
             DrawText(" / ", 310, 250, 20, WHITE);
             DrawText("OFF", 350, 250, 20, YELLOW);
         }
-        DrawText(labelEnter, 120, 400, 20, WHITE);
         break;
     
     case STATE_PLAYING:
@@ -363,7 +334,6 @@ void GameRender(){
         
         seconds = (int)(timeGameEnded - timeGameStarted) & 60;
         DrawText(TextFormat("TIME PLAYED: %d s", seconds), 20, 40, 34, DARKGRAY);
-        
         break;
 
     case STATE_WIN:
@@ -374,10 +344,8 @@ void GameRender(){
         
         seconds = (int)(timeGameEnded - timeGameStarted) & 60;
         DrawText(TextFormat("TIME PLAYED: %d s", seconds), 20, 40, 34, DARKGRAY);
-        
         break;
     }
-    
 }
 
 void GameReset(){
@@ -405,7 +373,8 @@ void RenderTile(sTILE tile){
                 DrawText(TextFormat("%d", tile.nearbyMineCount), tile.x * TILE_WIDTH + 13, tile.y * TILE_HEIGHT + 4, TILE_HEIGHT - 8, DARKGRAY);
             }
         }
-    } else if(tile.isFlagged){
+    }
+    else if(tile.isFlagged){
         Rectangle source = {0, 0, (float)textures[TEXTURE_FLAG].width, (float)textures[TEXTURE_FLAG].height};
         Rectangle dest = {(float)(tile.x * TILE_WIDTH), (float)(tile.y * TILE_HEIGHT), (float)TILE_WIDTH, (float)TILE_HEIGHT};
         Vector2 origin = {0, 0};
@@ -413,13 +382,13 @@ void RenderTile(sTILE tile){
         DrawTexturePro(textures[TEXTURE_FLAG], source, dest, origin, 0.0f, WHITE);
 
     }
-    
+
     DrawRectangleLines(tile.x * TILE_WIDTH, tile.y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT, WHITE);
 }
 
 void ResetTiles(){
 
-    // Resetting the tiles
+    // Resetting the tiles to default settings
     for(int i = 0; i < COLS; i++){
         for(int j = 0; j < ROWS; j++){
             grid[i][j] = (sTILE)
@@ -434,15 +403,21 @@ void ResetTiles(){
         }
     }
 
-    // Placing the mines
+    // Total number of mines
     minesPresentCount = (int)(ROWS * COLS * difficultyValue());
+    
+    // Mines that need to be placed on the grid
     int minesToPlace = minesPresentCount;
+
+    // Place the mines until we run out
     while(minesToPlace > 0){
+
+        // Randomizing mine placement
         int col = GetRandomValue(0, COLS - 1);
         int row = GetRandomValue(0, ROWS - 1);
 
+        // Place the mine if NOT already a mine
         if(!grid[col][row].isMine){
-
             grid[col][row].isMine = true;
             minesToPlace--;
         }
@@ -489,7 +464,6 @@ void RevealTile(int col, int row){
         gameState = STATE_LOSE;
         timeGameEnded = (float)GetTime();
         GamePlaySound(SOUND_FIVE);
-
     }
     else{
         if (grid[col][row].nearbyMineCount == 0){
@@ -509,7 +483,7 @@ void RevealTile(int col, int row){
 }
 
 void FlagTile(int col, int row){
-    // Toggle
+    // Toggle action
     grid[col][row].isFlagged = !grid[col][row].isFlagged;
     GamePlaySound(SOUND_THREE);
 
@@ -543,12 +517,14 @@ float difficultyValue(){
     else if (isMedium){
         return 0.3f;
     }
-    return 0.4f;
+    return 0.35f;
 }
+
 int main(){
 
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Minesweeper :)");
     
+    // Setting excecutable icon while running the program
     Image icon = LoadImage("resources/icon.png");
     ImageFormat(&icon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8); // Reformating the image
     SetWindowIcon(icon);
@@ -562,6 +538,7 @@ int main(){
         GameUpdate();
 
         BeginDrawing();
+
         ClearBackground(DARKBLUE);
 
         GameRender();
@@ -569,6 +546,7 @@ int main(){
         EndDrawing();
     }
 
+    // Closing the game
     GameShutdown();
     CloseWindow();
     return 0;
