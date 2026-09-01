@@ -5,10 +5,14 @@ Recreating the popular logic game using C and by following a tutorial, note this
 
 1) Installed new C compiler
 2) Installed raylib for project graphics
-3) Developed  game board with mine location
+3) Developed game board with mine location
+4) Finalized game development
+5) Fixed minor bugs
+6) Added new sound effects 
 
 # Reference Video on YouTube
 https://youtu.be/gIiYmA5mPcc?si=ix_ceAGaKGjfxYiV
 
-# Last Checked Timestamp
-@Time = 29:37
+# To be added
+Difficulity modifier
+Grid Size Adjuster

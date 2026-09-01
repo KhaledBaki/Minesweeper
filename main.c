@@ -8,8 +8,8 @@
 #define SCREEN_HEIGHT 600
 
 // Game Definitions
-#define COLS 12
-#define ROWS 12
+#define COLS 15
+#define ROWS 15
 
 // Filling the screen with the most tiles given number of cols and rows
 const int TILE_WIDTH = SCREEN_WIDTH / COLS;
@@ -61,12 +61,13 @@ game_states gameState;
 
 
 // Game Sounds
-#define MAX_SOUNDS 4
+#define MAX_SOUNDS 5
 typedef enum{
     SOUND_ONE = 0,
     SOUND_TWO,
     SOUND_THREE,
-    SOUND_FOUR
+    SOUND_FOUR,
+    SOUND_FIVE
 }sound_asset;
 
 Sound sounds[MAX_SOUNDS];
@@ -111,6 +112,7 @@ void GameStartup(){
     sounds[SOUND_TWO] = LoadSound("assets/explosion.wav");
     sounds[SOUND_THREE] = LoadSound("assets/pickupCoin.wav");
     sounds[SOUND_FOUR] = LoadSound("assets/winner.mp3");
+    sounds[SOUND_FIVE] = LoadSound("assets/lose.mp3");
     music[MUSIC_ONE] = LoadMusicStream("assets/8-bit-game-158815.mp3");
 
     PlayMusicStream(music[MUSIC_ONE]);
@@ -272,7 +274,6 @@ void GameRender(){
 
     case STATE_WIN:
         RenderTiles();
-        GamePlaySound(SOUND_FOUR);
         DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, Fade(WHITE, 0.8f));
         DrawText(labelGameWin, SCREEN_WIDTH / 2 - MeasureText(labelGameWin, 60) / 2, SCREEN_HEIGHT / 2 - 10, 60, DARKGRAY);
         DrawText(labelEnter, SCREEN_WIDTH / 2 - MeasureText(labelEnter, 34) / 2, (int)(SCREEN_HEIGHT * 0.75f) - 10, 34, DARKGRAY);
@@ -391,7 +392,7 @@ void RevealTile(int col, int row){
     if(grid[col][row].isMine){
         gameState = STATE_LOSE;
         timeGameEnded = (float)GetTime();
-        GamePlaySound(SOUND_TWO);
+        GamePlaySound(SOUND_FIVE);
 
     }
     else{
@@ -406,6 +407,7 @@ void RevealTile(int col, int row){
         if(revealedTilesCount >= (ROWS * COLS) - minesPresentCount){
             gameState = STATE_WIN;
             timeGameEnded = (float)GetTime();
+            GamePlaySound(SOUND_FOUR);
         }
     }
 }
