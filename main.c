@@ -1,3 +1,14 @@
+/*
+Minesweeper using Raylib in C Programming
+
+Khaled Baki
+August 31, 2026
+
+MIT License
+Copyright (c) 2024 Erik Yuzwa
+Copyright (c) 2026 Khaled Baki
+*/
+
 // Included Libraries
 #include <stdio.h>
 #include "raylib.h"
@@ -252,73 +263,74 @@ void GameRender(){
 
     case STATE_MAIN_MENU:
         DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, DARKBLUE);
-        DrawText("MINESWEEPER", 20, 20, 75, WHITE);
+        DrawText("MINESWEEPER", 20, 20, 100, WHITE);
         DrawText("[N]ew Game", 120, 220, 40, WHITE);
         DrawText("[O]ptions", 120, 270, 40, WHITE);
         DrawText("[D]ifficulty", 120, 320, 40, WHITE);
         DrawText("ESC to QUIT", 120, 370, 40, WHITE);
-        DrawText("Copyright 2024 @eyuzwa", 20, 500, 20, WHITE);
+        DrawText("Copyright 2024 @eyuzwa", 20, 700, 40, WHITE);
+        DrawText("Copyright 2026 @KhaledBaki", 20, 750, 40, WHITE);
         break;
         
     case STATE_DIFFICULTY_GRID_MENU:
-        DrawText("MINESWEEPER :: DIFFICULTY", 20, 20, 40, WHITE);
-        DrawText("[E]asy ", 120, 220, 20, WHITE);
-        DrawText("[M]edium ", 120, 250, 20, WHITE);
-        DrawText("[H]ard ", 120, 280, 20, WHITE);
-        DrawText(labelEnter, 120, 400, 20, WHITE);
+        DrawText("MINESWEEPER :: DIFFICULTY", 20, 20, 50, WHITE);
+        DrawText("[E]asy ", 120, 220, 40, WHITE);
+        DrawText("[M]edium ", 120, 270, 40, WHITE);
+        DrawText("[H]ard ", 120, 320, 40, WHITE);
+        DrawText(labelEnter, 120, 420, 35, WHITE);
 
         if (isEasy) {
-            DrawText("EASY", 280, 220, 20, YELLOW);
-            DrawText(" / ", 310, 220, 20, WHITE);
-            DrawText("MEDIUM", 350, 220, 20, WHITE);
-            DrawText(" / ", 380, 220, 20, WHITE);
-            DrawText("HARD", 420, 220, 20, WHITE);
+            DrawText("EASY", 120, 370, 30, GREEN);
+            DrawText(" / ", 200, 370, 30, WHITE);
+            DrawText("MEDIUM", 260, 370, 30, WHITE);
+            DrawText(" / ", 400, 370, 30, WHITE);
+            DrawText("HARD", 460, 370, 30, WHITE);
         }
         else if (isMedium) {
-            DrawText("EASY", 280, 220, 20, WHITE);
-            DrawText(" / ", 310, 220, 20, WHITE);
-            DrawText("MEDIUM", 350, 220, 20, YELLOW);
-            DrawText(" / ", 380, 220, 20, WHITE);
-            DrawText("HARD", 420, 220, 20, WHITE);
+            DrawText("EASY", 120, 370, 30, WHITE);
+            DrawText(" / ", 200, 370, 30, WHITE);
+            DrawText("MEDIUM", 260, 370, 30, YELLOW);
+            DrawText(" / ", 400, 370, 30, WHITE);
+            DrawText("HARD", 460, 370, 30, WHITE);
         }
         else if (isHard) {
-            DrawText("EASY", 280, 220, 20, WHITE);
-            DrawText(" / ", 310, 220, 20, WHITE);
-            DrawText("MEDIUM", 350, 220, 20, WHITE);
-            DrawText(" / ", 380, 220, 20, WHITE);
-            DrawText("HARD", 420, 220, 20, YELLOW);
+            DrawText("EASY", 120, 370, 30, WHITE);
+            DrawText(" / ", 200, 370, 30, WHITE);
+            DrawText("MEDIUM", 260, 370, 30, WHITE);
+            DrawText(" / ", 400, 370, 30, WHITE);
+            DrawText("HARD", 460, 370, 30, RED);
         }
         break;
 
     case STATE_OPTIONS_MENU:
         DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, DARKBLUE);
-        DrawText("MINESWEEPER :: OPTIONS", 20, 20, 40, WHITE);
-        DrawText("[S]ound ", 120, 220, 20, WHITE);
-        DrawText("[M]usic", 120, 250, 20, WHITE);
-        DrawText(labelEnter, 120, 400, 20, WHITE);
+        DrawText("MINESWEEPER :: OPTIONS", 20, 20, 50, WHITE);
+        DrawText("[S]ound ", 120, 220, 40, WHITE);
+        DrawText("[M]usic", 120, 270, 40, WHITE);
+        DrawText(labelEnter, 120, 420, 35, WHITE);
 
         // Sound Row
         if (isSoundEnabled) {
-            DrawText("ON", 280, 220, 20, YELLOW);
-            DrawText(" / ", 310, 220, 20, WHITE);
-            DrawText("OFF", 350, 220, 20, WHITE);
+            DrawText("ON", 340, 220, 30, GREEN);
+            DrawText(" / ", 370, 220, 30, WHITE);
+            DrawText("OFF", 410, 220, 30, WHITE);
         }
         else {
-            DrawText("ON", 280, 220, 20, WHITE);
-            DrawText(" / ", 310, 220, 20, WHITE);
-            DrawText("OFF", 350, 220, 20, YELLOW);
+            DrawText("ON", 340, 220, 30, WHITE);
+            DrawText(" / ", 370, 220, 30, WHITE);
+            DrawText("OFF", 410, 220, 30, RED);
         }
 
         // Music Row
         if (isMusicEnabled) {
-            DrawText("ON", 280, 250, 20, YELLOW);
-            DrawText(" / ", 310, 250, 20, WHITE);
-            DrawText("OFF", 350, 250, 20, WHITE);
+            DrawText("ON", 340, 270, 30, GREEN);
+            DrawText(" / ", 370, 270, 30, WHITE);
+            DrawText("OFF", 410, 270, 30, WHITE);
         }
         else {
-            DrawText("ON", 280, 250, 20, WHITE);
-            DrawText(" / ", 310, 250, 20, WHITE);
-            DrawText("OFF", 350, 250, 20, YELLOW);
+            DrawText("ON", 340, 270, 30, WHITE);
+            DrawText(" / ", 370, 270, 30, WHITE);
+            DrawText("OFF", 410, 270, 30, RED);
         }
         break;
     
