@@ -4,12 +4,17 @@
 #include "raymath.h"
 
 // Global Definitions
-#define  SCREEN_WIDTH 600
-#define SCREEN_HEIGHT 600
+#define  SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 800
 
 // Game Definitions
-#define COLS 15
-#define ROWS 15
+#define COLS 25
+#define ROWS 25
+
+// Game Difficulty
+bool isEasy = true;
+bool isMedium = false;
+bool isHard = false;
 
 // Filling the screen with the most tiles given number of cols and rows
 const int TILE_WIDTH = SCREEN_WIDTH / COLS;
@@ -52,6 +57,7 @@ Texture2D textures[MAX_TEXTURES];
 typedef enum{
     STATE_MAIN_MENU = 0,
     STATE_OPTIONS_MENU,
+    STATE_DIFFICULTY_GRID_MENU,
     STATE_PLAYING,
     STATE_LOSE,
     STATE_WIN
@@ -97,6 +103,7 @@ bool IsTileIndexValid(int, int);
 void RevealTile(int, int);
 void FlagTile(int, int);
 void RevealTilesFrom(int, int);
+float difficultyValue();
 
 
 
@@ -135,8 +142,37 @@ void GameUpdate(){
             gameState = STATE_OPTIONS_MENU;
             GamePlaySound(SOUND_TWO);
         }
+        else if (IsKeyPressed(KEY_D)){
+            gameState = STATE_DIFFICULTY_GRID_MENU;
+            GamePlaySound(SOUND_TWO);
+        }
         break;
     
+    case STATE_DIFFICULTY_GRID_MENU:
+        if(IsKeyPressed(KEY_E)){
+            isEasy = true;
+            isMedium = false;
+            isHard = false;
+            GamePlaySound(SOUND_ONE);
+        }
+        else if(IsKeyPressed(KEY_M)){
+            isEasy = false;
+            isMedium = true;
+            isHard = false;
+            GamePlaySound(SOUND_ONE);
+        }
+        else if(IsKeyPressed(KEY_H)){
+            isEasy = false;
+            isMedium = false;
+            isHard = true;
+            GamePlaySound(SOUND_ONE);
+        }
+        else if(IsKeyPressed(KEY_ENTER)){
+            gameState = STATE_MAIN_MENU;
+            GamePlaySound(SOUND_TWO);
+        }
+        break;
+
     case STATE_OPTIONS_MENU:
         if(IsKeyPressed(KEY_ENTER)){
             gameState = STATE_MAIN_MENU;
@@ -203,7 +239,7 @@ void GameShutdown(){
         UnloadTexture(textures[i]);
     }
 
-    for(int i = 0; i < MAX_TEXTURES; i++){
+    for(int i = 0; i < MAX_SOUNDS; i++){
         UnloadSound(sounds[i]);
     }
 
@@ -220,14 +256,72 @@ void GameRender(){
     {
     case STATE_MAIN_MENU:
         DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, DARKBLUE);
-        DrawText("MINESWEEPER", 20, 20, 40, WHITE);
-        DrawText("[N]ew Game", 120, 220, 20, WHITE);
-        DrawText("[O]ptions", 120, 250, 20, WHITE);
-        DrawText("ESC to QUIT", 120, 280, 20, WHITE);
-        DrawText("Copyright 2024 @eyuzwa", 120, 50, 20, WHITE);
+        DrawText("MINESWEEPER", 20, 20, 75, WHITE);
+        DrawText("[N]ew Game", 120, 220, 40, WHITE);
+        DrawText("[O]ptions", 120, 270, 40, WHITE);
+        DrawText("[D]ifficulty", 120, 320, 40, WHITE);
+        DrawText("ESC to QUIT", 120, 370, 40, WHITE);
+        DrawText("Copyright 2024 @eyuzwa", 20, 500, 20, WHITE);
         break;
-    
+        
+    case STATE_DIFFICULTY_GRID_MENU:
+        DrawText("MINESWEEPER :: DIFFICULTY", 20, 20, 40, WHITE);
+
+        DrawText("[E]asy ", 120, 220, 20, WHITE);
+        DrawText("[M]edium ", 120, 250, 20, WHITE);
+        DrawText("[H]ard ", 120, 280, 20, WHITE);
+        if (isEasy) {
+            DrawText("EASY", 280, 220, 20, YELLOW);
+            DrawText(" / ", 310, 220, 20, WHITE);
+            DrawText("MEDIUM", 350, 220, 20, WHITE);
+            DrawText(" / ", 380, 220, 20, WHITE);
+            DrawText("HARD", 420, 220, 20, WHITE);
+        }
+        else if (isMedium) {
+            DrawText("EASY", 280, 220, 20, WHITE);
+            DrawText(" / ", 310, 220, 20, WHITE);
+            DrawText("MEDIUM", 350, 220, 20, YELLOW);
+            DrawText(" / ", 380, 220, 20, WHITE);
+            DrawText("HARD", 420, 220, 20, WHITE);
+        }
+        else if (isHard) {
+            DrawText("EASY", 280, 220, 20, WHITE);
+            DrawText(" / ", 310, 220, 20, WHITE);
+            DrawText("MEDIUM", 350, 220, 20, WHITE);
+            DrawText(" / ", 380, 220, 20, WHITE);
+            DrawText("HARD", 420, 220, 20, YELLOW);
+        }
+        DrawText(labelEnter, 120, 400, 20, WHITE);
+        break;
+
     case STATE_OPTIONS_MENU:
+    DrawText("MINESWEEPER :: OPTIONS", 20, 20, 40, WHITE);
+
+        DrawText("[S]ound ", 120, 220, 20, WHITE);
+        if (isSoundEnabled) {
+            DrawText("ON", 280, 220, 20, YELLOW);
+            DrawText(" / ", 310, 220, 20, WHITE);
+            DrawText("OFF", 350, 220, 20, WHITE);
+        }
+        else {
+            DrawText("ON", 280, 220, 20, WHITE);
+            DrawText(" / ", 310, 220, 20, WHITE);
+            DrawText("OFF", 350, 220, 20, YELLOW);
+        }
+
+        DrawText("[M]usic", 120, 250, 20, WHITE);
+        if (isMusicEnabled) {
+            DrawText("ON", 280, 250, 20, YELLOW);
+            DrawText(" / ", 310, 250, 20, WHITE);
+            DrawText("OFF", 350, 250, 20, WHITE);
+        }
+        else {
+            DrawText("ON", 280, 250, 20, WHITE);
+            DrawText(" / ", 310, 250, 20, WHITE);
+            DrawText("OFF", 350, 250, 20, YELLOW);
+        }
+        DrawText(labelEnter, 120, 400, 20, WHITE);
+        break;
     DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, DARKBLUE);
         DrawText("MINESWEEPER :: OPTIONS", 20, 20, 40, WHITE);
 
@@ -341,11 +435,11 @@ void ResetTiles(){
     }
 
     // Placing the mines
-    minesPresentCount = (int)(ROWS * COLS * 0.1f);
+    minesPresentCount = (int)(ROWS * COLS * difficultyValue());
     int minesToPlace = minesPresentCount;
     while(minesToPlace > 0){
-        int col = GetRandomValue(0, COLS);
-        int row = GetRandomValue(0, ROWS);
+        int col = GetRandomValue(0, COLS - 1);
+        int row = GetRandomValue(0, ROWS - 1);
 
         if(!grid[col][row].isMine){
 
@@ -370,8 +464,10 @@ int CountNearbyMines(int col, int row){
             if(colOffset == 0 && rowOffset == 0){
                 continue;
             }
-            if(grid[col + colOffset][row + rowOffset].isMine && IsTileIndexValid(col + colOffset, row + rowOffset)){
-                count++;
+            if(IsTileIndexValid(col + colOffset, row + rowOffset)){
+                if(grid[col + colOffset][row + rowOffset].isMine){
+                    count++;
+                }
             }
         }
     }
@@ -440,6 +536,15 @@ void GamePlaySound(int sound){
     }
 }
 
+float difficultyValue(){
+    if(isEasy){
+        return 0.1f;
+    }
+    else if (isMedium){
+        return 0.3f;
+    }
+    return 0.4f;
+}
 int main(){
 
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Minesweeper :)");
