@@ -1,5 +1,5 @@
 # Minesweeper🚩💣
-Recreating the popular logic game using C by following a tutorial, note this is my first time experimenting with the raylib libraries, so this is going to be a learning experience for me! Please feel free to check out the code for yourselves.
+Recreating the popular logic game using C by following a tutorial. Note this is my first time experimenting with the Raylib libraries, so this is going to be a learning experience for me! Please feel free to check out the code for yourselves.
 
 # Goal of this project
 By learning about the development process of Minesweeper, I was able to actively recall C programming methods, as well as get a sense to how game development works. I also enjoyed applying the knowledge I learned from my "Introduction to Software Engineering" class @uOttawa. I was able to reduce the overall coupling of the program by sub-dividing the work.
@@ -22,3 +22,23 @@ By learning about the development process of Minesweeper, I was able to actively
 # References & Credits
 Huge thank you to "Erik Yuzwa" @erikyuzwa, this project would not have been possible without your helpful video:
 https://youtu.be/gIiYmA5mPcc?si=ix_ceAGaKGjfxYiV
+
+# How to Run this App
+1) Make sure you have a C compiler in your computer
+2) Make sure you have the Raylib library installed
+3) Clone this repository
+4) Compile "main.c"
+5) Run "main.exe" in the project folder
+
+---
+
+# Main Menu
+<img width="802" height="827" alt="1_Main_Menu" src="https://github.com/user-attachments/assets/91be1a4e-d785-4f26-a255-bc59f555faea" />
+
+---
+
+# Gameplay
+
+<img width="802" height="827" alt="4_Gameplay_State" src="https://github.com/user-attachments/assets/ce91e9a3-d752-4804-99be-58e6a5c0a9ce" />
+
+---
